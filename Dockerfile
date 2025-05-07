@@ -49,6 +49,10 @@ COPY --from=builder /usr/local/openresty/nginx /usr/local/openresty/nginx
 # Copy nginx.conf
 COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 80 443
 
-CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
+ENTRYPOINT ["/entrypoint.sh"]
