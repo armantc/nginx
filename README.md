@@ -5,8 +5,14 @@ Buidl:
 docker build -t nkabir1986/nginx .
 
 Path for Certificates:
-- /etc/nginx/ssl/fullchain.pem
-- /etc/nginx/ssl/
+- /nginx/ssl/fullchain.pem
+- /nginx/ssl/privkey.pem
 
 Config Path:
-- /tmp/nginx.conf
+- /nginx/nginx.conf
+
+CDN Cache path:
+- /nginx/cache
+
+Can use environment variables to configure with format ${VARIABLE_NAME} , and automatically replaced by
+docker-compose environment variables

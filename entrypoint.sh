@@ -1,7 +1,7 @@
 #!/bin/sh
 
 DOMAIN=example.com
-CERT_DIR="/etc/nginx/ssl/"
+CERT_DIR="/nginx/ssl/"
 
 # اگر گواهی نیست، بساز
 if [ ! -f "$CERT_DIR/fullchain.pem" ] || [ ! -f "$CERT_DIR/privkey.pem" ]; then
@@ -21,9 +21,6 @@ else
   echo "Real or existing cert found. Skipping self-signed generation."
 fi
 
-# envsubst '$${SERVER_NAME} $${S3_PATH}' < /tmp/nginx.conf > /usr/local/openresty/nginx/conf/nginx.conf
-
-# اجرای OpenResty
-# exec /usr/local/openresty/bin/openresty -g "daemon off;"
+cp -f /nginx/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
 exec "$@"

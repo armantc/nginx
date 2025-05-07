@@ -46,6 +46,9 @@ RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
 # Copy only nginx binary and modules from builder stage
 COPY --from=builder /usr/local/openresty/nginx /usr/local/openresty/nginx
 
+ADD https://github.com/kreuzwerker/envplate/releases/download/v0.0.7/ep-linux /bin/ep
+RUN chmod +x /bin/ep
+
 # Copy nginx.conf
 COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
@@ -59,4 +62,4 @@ EXPOSE 80 443
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
+CMD ["/bin/ep", "-v", "/usr/local/openresty/nginx/conf/nginx.conf", "--","/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
