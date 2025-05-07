@@ -22,13 +22,13 @@ WORKDIR /opt
 # Download nginx-vod-module
 RUN git clone https://github.com/kaltura/nginx-vod-module.git
 
-ENV NGINX_VERSION=1.28.0
-RUN wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
-    tar -zxvf nginx-${NGINX_VERSION}.tar.gz
+ENV OPENRESTY_VERSION=1.25.3.1
+RUN wget https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz \
+    && tar -zxvf openresty-${OPENRESTY_VERSION}.tar.gz
 
-WORKDIR /opt/nginx-${NGINX_VERSION}
+WORKDIR /opt/openresty-${OPENRESTY_VERSION}
 RUN ./configure \
-    --prefix=/usr/local/openresty/nginx \
+    --prefix=/usr/local/openresty \
     --add-module=/opt/nginx-vod-module \
     --with-http_ssl_module \
     --with-http_realip_module \
@@ -48,6 +48,8 @@ COPY --from=builder /usr/local/openresty/nginx /usr/local/openresty/nginx
 
 # Copy nginx.conf
 COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+
+COPY hmac.lua /usr/local/openresty/lualib/resty/hmac.lua
 
 # Copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh
