@@ -21,5 +21,9 @@ else
   echo "Real or existing cert found. Skipping self-signed generation."
 fi
 
+# envsubst '$${SERVER_NAME} $${S3_PATH}' < /tmp/nginx.conf > /usr/local/openresty/nginx/conf/nginx.conf
+
 # اجرای OpenResty
-exec /usr/local/openresty/bin/openresty -g "daemon off;"
+# exec /usr/local/openresty/bin/openresty -g "daemon off;"
+
+exec "$@"
